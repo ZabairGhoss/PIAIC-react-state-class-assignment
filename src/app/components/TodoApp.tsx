@@ -8,18 +8,18 @@ type Task = {
   isCompleted: boolean;
 };
 
-interface Task2 {
-  id: number;
-  task: string;
-  isCompleted: boolean;
-}
+// interface Task2 {
+//   id: number;
+//   task: string;
+//   isCompleted: boolean;
+// }
 
 const TodoApp = () => {
   const [input, setInput] = useState("");
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-  const [isCompletedTask, setIsCompletedTask] = useState<Boolean | any>(false);
+  const [isCompletedTask, setIsCompletedTask] = useState(false);
   const [tasks, setTasks] = useState<Task[]>([]);
-  const [tasks2, setTasks2] = useState<Task2[]>([]);
+
 
   function generateId(): number {
     const min = 100000; // Minimum value for the ID (adjust as needed)
@@ -31,8 +31,18 @@ const TodoApp = () => {
   const handleCheckboxChange = (id: number) => {
     setIsCompletedTask(!isCompletedTask);
     let indexOfTask = tasks.findIndex((task) => task.id == id);
-    let task = tasks.find((task) => task.id == id);
-    // setTasks({ ...task, isCompleted: isCompletedTask });
+const existingTaskIndex = tasks.findIndex((task) => task.id === id);
+
+if (existingTaskIndex !== -1) {
+  const updatedTasks = [...tasks]; // Create a shallow copy of the tasks array
+  updatedTasks[existingTaskIndex] = {
+    ...tasks[existingTaskIndex],
+    isCompleted: isCompletedTask,
+  };
+  setTasks(updatedTasks); // Update the state with the updated tasks array
+}
+
+
   };
 
   const handleChange = (e: any) => {
@@ -97,9 +107,10 @@ const TodoApp = () => {
                       name="TaskCompletionCheck"
                       value={"true"}
                       checked={task.isCompleted}
+                      // checked={isCompletedTask}
                       onChange={() => handleCheckboxChange(task.id)}
                     />
-                    <span className="text-lg font-semibold ml-5">
+                    <span className={`text-lg text-[#fff] font-semibold ml-5 ${task.isCompleted ? 'line-through': ''}`}>
                       {task.task}
                     </span>
                   </div>

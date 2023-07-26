@@ -8,18 +8,11 @@ type Task = {
   isCompleted: boolean;
 };
 
-// interface Task2 {
-//   id: number;
-//   task: string;
-//   isCompleted: boolean;
-// }
-
 const TodoApp = () => {
   const [input, setInput] = useState("");
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [isCompletedTask, setIsCompletedTask] = useState(false);
   const [tasks, setTasks] = useState<Task[]>([]);
-
 
   function generateId(): number {
     const min = 100000; // Minimum value for the ID (adjust as needed)
@@ -29,20 +22,17 @@ const TodoApp = () => {
   }
 
   const handleCheckboxChange = (id: number) => {
-    setIsCompletedTask(!isCompletedTask);
-    let indexOfTask = tasks.findIndex((task) => task.id == id);
-const existingTaskIndex = tasks.findIndex((task) => task.id === id);
+    const existingTaskIndex = tasks.findIndex((task) => task.id === id);
 
-if (existingTaskIndex !== -1) {
-  const updatedTasks = [...tasks]; // Create a shallow copy of the tasks array
-  updatedTasks[existingTaskIndex] = {
-    ...tasks[existingTaskIndex],
-    isCompleted: isCompletedTask,
-  };
-  setTasks(updatedTasks); // Update the state with the updated tasks array
-}
-
-
+    if (existingTaskIndex !== -1) {
+      const updatedTasks = [...tasks]; // Create a shallow copy of the tasks array
+      updatedTasks[existingTaskIndex] = {
+        ...tasks[existingTaskIndex],
+        isCompleted: !tasks[existingTaskIndex].isCompleted,
+      };
+      setTasks(updatedTasks); // Update the state with the updated tasks array
+    }
+    console.log("Tasks>>", [...tasks]);
   };
 
   const handleChange = (e: any) => {
@@ -106,11 +96,15 @@ if (existingTaskIndex !== -1) {
                       type="checkbox"
                       name="TaskCompletionCheck"
                       value={"true"}
+                      className="p-5"
                       checked={task.isCompleted}
-                      // checked={isCompletedTask}
                       onChange={() => handleCheckboxChange(task.id)}
                     />
-                    <span className={`text-lg text-[#fff] font-semibold ml-5 ${task.isCompleted ? 'line-through': ''}`}>
+                    <span
+                      className={`text-lg text-[#fff] font-semibold ml-5 ${
+                        task.isCompleted ? "line-through" : ""
+                      }`}
+                    >
                       {task.task}
                     </span>
                   </div>

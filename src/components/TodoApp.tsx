@@ -32,7 +32,6 @@ const TodoApp = () => {
       };
       setTasks(updatedTasks); // Update the state with the updated tasks array
     }
-    console.log("Tasks>>", [...tasks]);
   };
 
   const handleChange = (e: any) => {
@@ -54,6 +53,11 @@ const TodoApp = () => {
     setInput("");
   };
 
+  const handleDelete = (id: number) => {
+    let updatedTasks = tasks.filter((task) => task.id !== id);
+    setTasks(updatedTasks);
+  };
+
   useEffect(() => {
     if (input == "") {
       setIsButtonDisabled(true);
@@ -63,7 +67,7 @@ const TodoApp = () => {
   }, [input]);
 
   return (
-    <div className="w-1/2 bg-gray-300 rounded-md py-10 flex flex-col">
+    <div className="w-1/2 bg-gray-300 rounded-md py-10 flex flex-col mx-auto">
       <h1 className="text-center font-bold text-2xl">React TodoApp</h1>
       <div className="flex bg-slate-300 px-10 justify-around w-full my-10">
         <input
@@ -108,7 +112,10 @@ const TodoApp = () => {
                       {task.task}
                     </span>
                   </div>
-                  <button className="px-3 bg-red-700 text-[#fff] font-extrabold">
+                  <button
+                    className="px-3 bg-red-700 text-[#fff] font-extrabold"
+                    onClick={() => handleDelete(task.id)}
+                  >
                     X
                   </button>
                 </div>

@@ -12,9 +12,6 @@ export default function Home() {
       <nav className="ml-20">
         <ul className="mt-10 list-decimal">
           <li className="text-blue-600 hover:underline text-xl my-2">
-            <Link href={"/"}>HOME</Link>
-          </li>
-          <li className="text-blue-600 hover:underline text-xl my-2">
             <Link href={"/todoapp"}>React Todo App</Link>
           </li>
           <li className="text-blue-600 hover:underline text-xl my-2">
